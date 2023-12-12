@@ -3,8 +3,9 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import api from '../services/api';
 
-export default function Login() {
+export default function Register() {
   const [login, setLogin] = useState('');
+  const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useRouter();
 
@@ -27,15 +28,15 @@ export default function Login() {
     <div className="">
       <section className="">
         <form onSubmit={handleLogin}>
-          <h1>Entre</h1>
+          <h1>Registre-se</h1>
 
-          <h2>Se você não tem uma conta registre-se.</h2>
+          <h2>Se você tem uma conta registrada</h2>
 
           <div className="flex">
             <h2 className="mr-1">Você pode</h2>
 
-            <Link className="text-yellow-600" href="/register">
-              Registrar-se aqui!
+            <Link className="text-yellow-600" href="/">
+              Entrar aqui!
             </Link>
           </div>
 
@@ -47,7 +48,19 @@ export default function Login() {
           />
           <input
             className="block border-b-2 border-black"
+            placeholder="Nome de usuário"
+            value={user}
+            onChange={(e) => setUser(e.target.value)}
+          />
+          <input
+            className="block border-b-2 border-black"
             placeholder="Senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <input
+            className="block border-b-2 border-black"
+            placeholder="Confirmar senha"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
