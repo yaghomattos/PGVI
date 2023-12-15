@@ -28,7 +28,7 @@ export default function Register() {
   }
 
   return (
-    <div className="w-screen h-screen flex justify-end bg-blue-900 bg-opacity-90 font-mono">
+    <div className="w-screen h-screen flex justify-end bg-gray-900 bg-opacity-95 font-mono">
       <Head>
         <title>PGVI</title>
       </Head>
