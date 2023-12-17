@@ -57,7 +57,7 @@ export default function Login() {
           <div className="flex text-base text-black">
             <h2 className="mr-1">Você pode</h2>
 
-            <Link className="text-yellow-600" href={'/register'}>
+            <Link className="text-orange-500" href={'/register'}>
               Registrar-se aqui!
             </Link>
           </div>
