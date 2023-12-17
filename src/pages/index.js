@@ -3,6 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { TbLock } from 'react-icons/tb';
+import { TfiEmail } from 'react-icons/tfi';
 import Estudante from '../public/student.svg';
 
 export default function Login() {
@@ -60,27 +62,43 @@ export default function Login() {
             </Link>
           </div>
 
-          <span className="block mt-10">Email</span>
-          <input
-            className="block w-full border-b-2 border-black"
-            placeholder="Digite seu endereço de e-mail"
-            value={login}
-            onChange={(e) => setLogin(e.target.value)}
-          />
-          <span className="block mt-8">Senha</span>
-          <input
-            className="block w-full border-b-2 border-black"
-            placeholder="Digite sua senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <span className="block mt-10 font-medium text-sm text-gray-400">
+            Email
+          </span>
+          <label className="flex w-full mt-4">
+            <TfiEmail className="absolute" size={20} />
+            <input
+              className="w-full pl-8 pb-2 text-black outline-none border-b-2 border-gray-600 placeholder-black"
+              placeholder="Digite seu endereço de e-mail"
+              value={login}
+              onChange={(e) => setLogin(e.target.value)}
+            />
+          </label>
+          <span className="block mt-8 font-medium text-sm text-gray-400">
+            Senha
+          </span>
+          <label className="flex w-full mt-4">
+            <TbLock className="absolute" size={20} />
+            <input
+              className="w-full pl-8 pb-2 text-black outline-none border-b-2 border-gray-600 placeholder-black"
+              placeholder="Digite sua senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
 
-          <button className="mt-2" type="">
-            Esqueci minha senha
-          </button>
+          <div className="flex mt-4 justify-between">
+            <div>
+              <input type="checkbox" />
+              <label className="pl-2">Lembrar-me</label>
+            </div>
+            <button className="text-gray-400" type="button">
+              Esqueceu a senha?
+            </button>
+          </div>
 
           <button
-            className="block w-full h-10 mt-12 rounded-3xl bg-yellow-600 text-white"
+            className="block w-full h-12 mt-12 rounded-3xl bg-orange-500 text-white"
             type="submit"
           >
             Entrar
