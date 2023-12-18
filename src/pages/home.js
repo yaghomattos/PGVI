@@ -15,13 +15,13 @@ export default function Home() {
       <div className="w-4/5 mr-6 my-6 rounded-3xl bg-white">
         <Header />
 
-        <section className="flex-auto ml-16 mt-8">
+        <section className="flex-auto ml-16 mt-6">
           <h1 className="text-3xl text-medium">Cursos não terminados</h1>
 
           <div className="flex mt-2">
-            <div className="flex flex-col justify-around w-[26vw] h-72 mr-10 rounded-2xl bg-gray-400">
+            <div className="flex flex-col justify-around w-[26vw] h-[40vh] mr-[2vw] rounded-2xl bg-gray-400">
               <video
-                className="absolute w-[26vw] h-72 z-0 rounded-2xl"
+                className="absolute w-[26vw] h-[40vh] z-0 rounded-2xl"
                 autoPlay
                 loop
                 muted
@@ -51,9 +51,9 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="flex flex-col justify-around w-[26vw] h-72 mr-10 rounded-2xl bg-gray-400">
+            <div className="flex flex-col justify-around w-[26vw] h-[40vh] mr-10 rounded-2xl bg-gray-400">
               <video
-                className="absolute w-[26vw] h-72 z-0 rounded-2xl"
+                className="absolute w-[26vw] h-[40vh] z-0 rounded-2xl"
                 autoPlay
                 loop
                 muted
@@ -85,11 +85,11 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="ml-16 mt-8">
+        <section className="ml-16 mt-6">
           <h1 className="text-3xl text-medium">Outros Cursos</h1>
 
           <div className="flex mt-2">
-            <div className="w-1/12 h-40 mr-6 rounded-xl bg-gray-400">
+            <div className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
               <div className="flex">
                 <div className="flex-auto w-fit">
                   <Image className="w-[3vw] h-[3vw] rounded-full" />
@@ -97,7 +97,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-1/12 h-40 mr-6 rounded-xl bg-gray-400">
+            <div className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
               <div className="flex">
                 <div className="flex-auto w-fit">
                   <Image className="w-[3vw] h-[3vw] rounded-full" />
@@ -105,7 +105,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-1/12 h-40 mr-6 rounded-xl bg-gray-400">
+            <div className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
               <div className="flex">
                 <div className="flex-auto w-fit">
                   <Image className="w-[3vw] h-[3vw] rounded-full" />
@@ -113,7 +113,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-1/12 h-40 mr-6 rounded-xl bg-gray-400">
+            <div className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
               <div className="flex">
                 <div className="flex-auto w-fit">
                   <Image className="w-[3vw] h-[3vw] rounded-full" />
@@ -121,7 +121,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-1/12 h-40 mr-6 rounded-xl bg-gray-400">
+            <div className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
               <div className="flex">
                 <div className="flex-auto w-fit">
                   <Image className="w-[3vw] h-[3vw] rounded-full" />
@@ -129,7 +129,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-1/12 h-40 mr-6 rounded-xl bg-gray-400">
+            <div className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
               <div className="flex">
                 <div className="flex-auto w-fit">
                   <Image className="w-[3vw] h-[3vw] rounded-full" />
@@ -137,7 +137,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-1/12 h-40 rounded-xl bg-gray-400">
+            <div className="w-[6vw] h-[20vh] rounded-xl bg-gray-400">
               <div className="flex">
                 <div className="flex-auto w-fit">
                   <Image className="w-[3vw] h-[3vw] rounded-full" />
