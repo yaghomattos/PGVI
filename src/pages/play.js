@@ -20,11 +20,11 @@ export default function Play() {
         <div className="flex ml-16">
           <div>
             <h1 className="text-3xl mt-6">Nome do curso</h1>
-            <video controls width={720} className="rounded-3xl mt-2">
+            <video controls width={700} className="rounded-3xl mt-2">
               <source src="https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4"></source>
             </video>
             <div className="flex-auto mt-4">
-              <div className="flex items-center mb-2 border-2 border-black">
+              <div className="flex items-center pb-6 border-solid border-b-[1px] border-gray-200">
                 <img
                   className="w-12 h-12 rounded-full"
                   src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1480&amp;q=80"
@@ -32,7 +32,7 @@ export default function Play() {
                 <h2 className="text-2xl ml-6">Aula X</h2>
               </div>
               <h3 className="font-bold text-base text-gray-400">Descrição</h3>
-              <p className="absolute w-[42vw] mt-1">
+              <p className="absolute w-[42vw]">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
                 pulvinar dolor laoreet nunc tempor sagittis id ut velit. Proin
                 cursus purus id diam ullamcorper ultrices. Vivamus molestie quis

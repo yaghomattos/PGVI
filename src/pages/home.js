@@ -88,64 +88,50 @@ export default function Home() {
         <section className="ml-16 mt-6">
           <h1 className="text-3xl text-medium">Outros Cursos</h1>
 
-          <div className="flex mt-2">
-            <div className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex">
-                <div className="flex-auto w-fit">
-                  <Image className="w-[3vw] h-[3vw] rounded-full" />
-                  <h2 className="font-light text-gray-200">@alguem</h2>
-                </div>
+          <ul className="flex mt-2">
+            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
+              <div className="flex-auto w-fit">
+                <Image className="w-[3vw] h-[3vw] rounded-full" />
+                <h2 className="font-light text-gray-200">@alguem</h2>
               </div>
-            </div>
-            <div className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex">
-                <div className="flex-auto w-fit">
-                  <Image className="w-[3vw] h-[3vw] rounded-full" />
-                  <h2 className="font-light text-gray-200">@alguem</h2>
-                </div>
+            </li>
+            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
+              <div className="flex-auto w-fit">
+                <Image className="w-[3vw] h-[3vw] rounded-full" />
+                <h2 className="font-light text-gray-200">@alguem</h2>
               </div>
-            </div>
-            <div className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex">
-                <div className="flex-auto w-fit">
-                  <Image className="w-[3vw] h-[3vw] rounded-full" />
-                  <h2 className="font-light text-gray-200">@alguem</h2>
-                </div>
+            </li>
+            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
+              <div className="flex-auto w-fit">
+                <Image className="w-[3vw] h-[3vw] rounded-full" />
+                <h2 className="font-light text-gray-200">@alguem</h2>
               </div>
-            </div>
-            <div className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex">
-                <div className="flex-auto w-fit">
-                  <Image className="w-[3vw] h-[3vw] rounded-full" />
-                  <h2 className="font-light text-gray-200">@alguem</h2>
-                </div>
+            </li>
+            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
+              <div className="flex-auto w-fit">
+                <Image className="w-[3vw] h-[3vw] rounded-full" />
+                <h2 className="font-light text-gray-200">@alguem</h2>
               </div>
-            </div>
-            <div className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex">
-                <div className="flex-auto w-fit">
-                  <Image className="w-[3vw] h-[3vw] rounded-full" />
-                  <h2 className="font-light text-gray-200">@alguem</h2>
-                </div>
+            </li>
+            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
+              <div className="flex-auto w-fit">
+                <Image className="w-[3vw] h-[3vw] rounded-full" />
+                <h2 className="font-light text-gray-200">@alguem</h2>
               </div>
-            </div>
-            <div className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex">
-                <div className="flex-auto w-fit">
-                  <Image className="w-[3vw] h-[3vw] rounded-full" />
-                  <h2 className="font-light text-gray-200">@alguem</h2>
-                </div>
+            </li>
+            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
+              <div className="flex-auto w-fit">
+                <Image className="w-[3vw] h-[3vw] rounded-full" />
+                <h2 className="font-light text-gray-200">@alguem</h2>
               </div>
-            </div>
-            <div className="w-[6vw] h-[20vh] rounded-xl bg-gray-400">
-              <div className="flex">
-                <div className="flex-auto w-fit">
-                  <Image className="w-[3vw] h-[3vw] rounded-full" />
-                  <h2 className="font-light text-gray-200">@alguem</h2>
-                </div>
+            </li>
+            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
+              <div className="flex-auto w-fit">
+                <Image className="w-[3vw] h-[3vw] rounded-full" />
+                <h2 className="font-light text-gray-200">@alguem</h2>
               </div>
-            </div>
-          </div>
+            </li>
+          </ul>
         </section>
       </div>
     </div>
