@@ -3,32 +3,33 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import Slider from 'react-slick';
 import Header from '../components/header';
 import Sidebar from '../components/sidebar';
 
 export default function Home(props) {
   const userId = props.id;
 
-  const [videos, setVideos] = useState([]);
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 2,
-    slidesToScroll: 2,
-  };
+  const [userVideos, setUserVideos] = useState([1, 2, 3]);
+  const [allVideos, setAllVideos] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
   const navigate = useRouter();
 
   api
     .get(`/users/videos/userId/${userId}`)
     .then((response) => {
-      setVideos(response);
+      setUserVideos(response);
     })
     .catch((err) => {
-      console.log(err.message);
+      console.log('userId - ' + err.message);
+    });
+
+  api
+    .get(`/video/all-videos`)
+    .then((response) => {
+      setAllVideos(response.data);
+    })
+    .catch((err) => {
+      console.log('allVideos - ' + err.message);
     });
 
   return (
@@ -42,18 +43,23 @@ export default function Home(props) {
       <div className="w-4/5 mr-6 my-6 rounded-3xl bg-white">
         <Header />
 
-        <section className="flex-auto ml-16 mt-6">
+        <section className="ml-16 mt-4">
           <h1 className="text-3xl text-medium">Meus Cursos</h1>
-          <div className="mt-2">
-            <Slider {...settings}>
-              {videos.map((video) => {
+          <div
+            className="flex flex-row overflow-x-scroll w-[54vw] mt-2"
+            style={{
+              paddingBottom: '4px',
+            }}
+          >
+            {userVideos.map((video) => {
+              return (
                 <div
-                  key={video.name}
-                  className="w-[26vw] h-[40vh] mr-[2vw] rounded-2xl bg-gray-400"
-                  onClick={navigate.push('/play', video.id)}
+                  key={video.valueOf()}
+                  className="w-[26vw] h-[40vh] flex-shrink-0 mr-[2vw] rounded-2xl bg-gray-400"
+                  onClick={() => navigate.push('/play', video.id)}
                 >
                   <video
-                    className="absolute w-[20vw] h-[40vh] z-0 rounded-2xl"
+                    className="absolute z-0 rounded-2xl"
                     autoPlay
                     loop
                     muted
@@ -61,22 +67,23 @@ export default function Home(props) {
                     <source src={video.content} type="video/mp4" />
                   </video>
 
-                  <div className="flex flex-col items-center justify-between z-10">
-                    <div className="flex justify-around w-4/5">
-                      <div className="flex w-fit">
+                  <div className="flex flex-col w-full h-full justify-around items-center z-10">
+                    <div className="flex w-full justify-around items-center">
+                      <div className="flex flex-col">
                         <Image
                           className="w-[3vw] h-[3vw] rounded-full"
-                          src={video.user}
+                          alt="username"
+                          src={video.content}
                         />
-                        <div className="flex-auto">
-                          <h1 className="font-bold text-white">{video.user}</h1>
-
-                          <h2 className="font-light text-gray-200">@alguem</h2>
-                        </div>
+                        <h2 className="font-light text-gray-200">
+                          {video.username}
+                        </h2>
                       </div>
 
                       <div className="w-fit h-fit py-2 px-3 rounded-lg bg-orange-600">
-                        <h2 className="text-base text-white">0 min</h2>
+                        <h2 className="text-base text-white">
+                          {'video.time min'}
+                        </h2>
                       </div>
                     </div>
 
@@ -86,59 +93,46 @@ export default function Home(props) {
                       </p>
                     </div>
                   </div>
-                </div>;
-              })}
-            </Slider>
+                </div>
+              );
+            })}
           </div>
         </section>
 
-        <section className="ml-16 mt-6">
+        <section className="ml-16 mt-4">
           <h1 className="text-3xl text-medium">Outros Cursos</h1>
 
-          <ul className="flex mt-2">
-            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex-auto w-fit">
-                <Image className="w-[3vw] h-[3vw] rounded-full" />
-                <h2 className="font-light text-gray-200">@alguem</h2>
-              </div>
-            </li>
-            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex-auto w-fit">
-                <Image className="w-[3vw] h-[3vw] rounded-full" />
-                <h2 className="font-light text-gray-200">@alguem</h2>
-              </div>
-            </li>
-            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex-auto w-fit">
-                <Image className="w-[3vw] h-[3vw] rounded-full" />
-                <h2 className="font-light text-gray-200">@alguem</h2>
-              </div>
-            </li>
-            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex-auto w-fit">
-                <Image className="w-[3vw] h-[3vw] rounded-full" />
-                <h2 className="font-light text-gray-200">@alguem</h2>
-              </div>
-            </li>
-            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex-auto w-fit">
-                <Image className="w-[3vw] h-[3vw] rounded-full" />
-                <h2 className="font-light text-gray-200">@alguem</h2>
-              </div>
-            </li>
-            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex-auto w-fit">
-                <Image className="w-[3vw] h-[3vw] rounded-full" />
-                <h2 className="font-light text-gray-200">@alguem</h2>
-              </div>
-            </li>
-            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex-auto w-fit">
-                <Image className="w-[3vw] h-[3vw] rounded-full" />
-                <h2 className="font-light text-gray-200">@alguem</h2>
-              </div>
-            </li>
-          </ul>
+          <div
+            className="flex flex-row overflow-x-scroll w-[54vw] mt-2"
+            style={{
+              paddingBottom: '4px',
+            }}
+          >
+            {allVideos ? (
+              allVideos.map((allVideo, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="flex-shrink-0 w-[8vw] h-[20vh] mr-6 rounded-xl bg-gray-400"
+                    onClick={() => navigate.push('/play', allVideo.id)}
+                  >
+                    <div className="flex flex-col h-full items-center justify-end">
+                      <Image
+                        className="mb-2 w-[3vw] h-[3vw] rounded-full"
+                        alt="other user"
+                        src={allVideo.content}
+                      />
+                      <h2 className="mb-4 font-light text-gray-200">
+                        {allVideo.username}
+                      </h2>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="w-full h-20 bg-red-200"></div>
+            )}
+          </div>
         </section>
       </div>
     </div>
