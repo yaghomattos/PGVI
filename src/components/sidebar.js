@@ -29,14 +29,6 @@ export default function Sidebar(props) {
         </div>
         <div className="mb-4">
           <Link
-            className={pathname == '/play' ? active : inactive}
-            href={'/play'}
-          >
-            Minhas aulas
-          </Link>
-        </div>
-        <div className="mb-4">
-          <Link
             className={pathname == '/record' ? active : inactive}
             href={'/record'}
           >

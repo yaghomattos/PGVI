@@ -8,6 +8,7 @@ import { TfiEmail } from 'react-icons/tfi';
 import Estudante from '../public/student.svg';
 
 export default function Login() {
+  const [signedIn, setSignedIn] = useState(false);
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useRouter();
@@ -16,12 +17,18 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      //const response = await api.post('users', { login });
+      const response = await api
+        .post('/users/signin', {
+          username: login,
+          password: password,
+        })
+        .then(setSignedIn(true))
+        .catch(setSignedIn(false));
 
       localStorage.setItem('login', login);
-      //localStorage.setItem('name', response.data.name);
+      localStorage.setItem('password', password);
 
-      navigate.push('/home');
+      if (signedIn) navigate.push('/home', reponse.id);
     } catch (err) {
       alert('Falha no login, tente novamente.');
     }

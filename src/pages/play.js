@@ -1,10 +1,19 @@
+import api from '@/services/api';
 import Head from 'next/head';
-import { useRouter } from 'next/navigation';
 import Header from '../components/header';
 import Sidebar from '../components/sidebar';
 
-export default function Play() {
-  const navigate = useRouter();
+export default function Play(props) {
+  const videoId = props.id;
+
+  api
+    .get(`/users/videos/userId/${'id'}`)
+    .then((response) => {
+      setVideos(response);
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
 
   return (
     <div className="w-screen h-screen flex justify-end bg-gray-900 bg-opacity-95 font-mono">
@@ -21,7 +30,7 @@ export default function Play() {
           <div>
             <h1 className="text-3xl mt-6">Nome do curso</h1>
             <video controls width={700} className="rounded-3xl mt-2">
-              <source src="https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4"></source>
+              <source src={videoId}></source>
             </video>
             <div className="flex-auto mt-4">
               <div className="flex items-center pb-6 border-solid border-b-[1px] border-gray-200">
