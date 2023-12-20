@@ -1,30 +1,47 @@
-import VideoPreview from "@/components/VideoPreview";
-import dynamic from "next/dynamic";
-import Head from "next/head";
-import Image from "next/image";
-import { useState, useEffect } from "react";
-import Sidebar from "../components/sidebar";
+import VideoPreview from '@/components/VideoPreview';
+import dynamic from 'next/dynamic';
+import Head from 'next/head';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import Sidebar from '../components/sidebar';
+import api from '../services/api';
 
 export default function record() {
   const ReactMediaRecorder = dynamic(
-    () => import("react-media-recorder").then((mod) => mod.ReactMediaRecorder),
+    () => import('react-media-recorder').then((mod) => mod.ReactMediaRecorder),
     {
       ssr: false,
     }
   );
 
   const [audio, setAudio] = useState(true);
-  const [quality, setQuality] = useState("720");
-  const [recordType, setRecordType] = useState("screen");
-  const [userId, setUserId] = useState("screen");
+  const [quality, setQuality] = useState('720');
+  const [recordType, setRecordType] = useState('screen');
+  const [userId, setUserId] = useState('screen');
+
   const [questions, setQuestions] = useState([]);
-  const [content, setContent] = useState("");
-  const [correct, setCorrect] = useState("A");
-  const [options, setOptions] = useState({ A: "", B: "", C: "", D: "" });
-  const [moment, setMoment] = useState("00:00:00");
+  const [content, setContent] = useState('');
+  const [correct, setCorrect] = useState('A');
+  const [options, setOptions] = useState({ A: '', B: '', C: '', D: '' });
+  const [moment, setMoment] = useState('00:00:00');
   const [currQuenstionIndex, setCurrQuenstionIndex] = useState(0);
 
+  const [userVideos, setUserVideos] = useState([]);
+
+  if (typeof window !== 'undefined') {
+    api
+      .get(`/users/videos/userId/${userId}`)
+      .then((response) => {
+        setUserVideos(response.data);
+      })
+      .catch((err) => {
+        console.log('userVideos - ' + err.message);
+      });
+  }
+
   useEffect(() => {
+    setUserId(localStorage.getItem('userId'));
+
     setCurrQuenstionIndex(questions.length - 1);
   }, [questions]);
 
@@ -34,64 +51,47 @@ export default function record() {
         <title>PGVI</title>
       </Head>
 
-      <Sidebar style={"w-1/6 h-screen justify-center items-center"} />
+      <Sidebar style={'w-1/6 h-screen justify-center items-center'} />
 
       <div className="w-4/5 mr-6 my-6 rounded-3xl bg-white">
-        <section className="ml-16 mt-6">
-          <h1 className="text-3xl text-medium">Outros Cursos</h1>
+        <section className="ml-16 mt-4">
+          <h1 className="text-3xl text-medium">Meus Cursos</h1>
 
-          <ul className="flex mt-2">
-            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex-auto w-fit">
-                <Image className="w-[3vw] h-[3vw] rounded-full" />
-                <h2 className="font-light text-gray-200">@alguem</h2>
-              </div>
-            </li>
-            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex-auto w-fit">
-                <Image className="w-[3vw] h-[3vw] rounded-full" />
-                <h2 className="font-light text-gray-200">@alguem</h2>
-              </div>
-            </li>
-            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex-auto w-fit">
-                <Image className="w-[3vw] h-[3vw] rounded-full" />
-                <h2 className="font-light text-gray-200">@alguem</h2>
-              </div>
-            </li>
-            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex-auto w-fit">
-                <Image className="w-[3vw] h-[3vw] rounded-full" />
-                <h2 className="font-light text-gray-200">@alguem</h2>
-              </div>
-            </li>
-            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex-auto w-fit">
-                <Image className="w-[3vw] h-[3vw] rounded-full" />
-                <h2 className="font-light text-gray-200">@alguem</h2>
-              </div>
-            </li>
-            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex-auto w-fit">
-                <Image className="w-[3vw] h-[3vw] rounded-full" />
-                <h2 className="font-light text-gray-200">@alguem</h2>
-              </div>
-            </li>
-            <li className="w-[6vw] h-[20vh] mr-6 rounded-xl bg-gray-400">
-              <div className="flex-auto w-fit">
-                <Image className="w-[3vw] h-[3vw] rounded-full" />
-                <h2 className="font-light text-gray-200">@alguem</h2>
-              </div>
-            </li>
-          </ul>
+          <div
+            className="flex flex-row overflow-x-scroll w-[54vw] mt-2"
+            style={{
+              paddingBottom: '4px',
+            }}
+          >
+            {userVideos.map((userVideo, index) => {
+              return (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-[8vw] h-[20vh] mr-6 rounded-xl bg-gray-400"
+                  onClick={() => navigate.push('/play', userVideo.id)}
+                >
+                  <div className="flex flex-col h-full items-center justify-end">
+                    <Image
+                      className="mb-2 w-[3vw] h-[3vw] rounded-full"
+                      alt="other user"
+                      src={userVideo.content}
+                    />
+                    <h2 className="mb-4 font-light text-gray-200">
+                      {userVideo.username}
+                    </h2>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </section>
 
-        <section className="flex justify-start  ml-16 mt-6">
+        <section className="flex justify-start ml-16 mt-4">
           <div>
             <h2 className="text-3xl">Gravar</h2>
             <ReactMediaRecorder
-              video={recordType == "webcam"}
-              screen={recordType == "screen"}
+              video={recordType == 'webcam'}
+              screen={recordType == 'screen'}
               audio={audio}
               render={({
                 status,
@@ -107,14 +107,14 @@ export default function record() {
                 mediaBlobUrl,
               }) => (
                 <div>
-                  <ul className="flex w-[45vw] justify-start mb-4 mt-3 ml-3">
+                  <ul className="flex w-[45vw] justify-start mb-2 mt-1 ml-3">
                     <li className="flex items-center">
                       <input
                         className="w-[25px] h-[25px] accent-orange-600"
                         id="screenType"
                         type="checkbox"
-                        checked={recordType === "screen"}
-                        onChange={() => setRecordType("screen")}
+                        checked={recordType === 'screen'}
+                        onChange={() => setRecordType('screen')}
                       />
                       <label className="ml-2" htmlFor="screenType">
                         Screen
@@ -125,8 +125,8 @@ export default function record() {
                         className="w-[25px] h-[25px] ml-[2vw] accent-orange-600"
                         id="webcamType"
                         type="checkbox"
-                        checked={recordType === "webcam"}
-                        onChange={() => setRecordType("webcam")}
+                        checked={recordType === 'webcam'}
+                        onChange={() => setRecordType('webcam')}
                       />
                       <label className="ml-2" htmlFor="webcamType">
                         Webcam
@@ -137,8 +137,8 @@ export default function record() {
                         className="w-[25px] h-[25px] ml-[2vw] accent-orange-600"
                         id="720p"
                         type="checkbox"
-                        checked={quality === "720"}
-                        onChange={() => setQuality("720")}
+                        checked={quality === '720'}
+                        onChange={() => setQuality('720')}
                       />
                       <label className="ml-2" htmlFor="720p">
                         720P
@@ -149,8 +149,8 @@ export default function record() {
                         className="w-[25px] h-[25px] ml-[2vw] accent-orange-600"
                         id="1080p"
                         type="checkbox"
-                        checked={quality === "1080"}
-                        onChange={() => setQuality("1080")}
+                        checked={quality === '1080'}
+                        onChange={() => setQuality('1080')}
                       />
                       <label className="ml-2" htmlFor="1080p">
                         1080P
@@ -160,8 +160,8 @@ export default function record() {
                       <button
                         className={
                           !isAudioMuted
-                            ? "rounded-xl bg-orange-400 p-3 hover:bg-orange-600 ml-[2vw]"
-                            : "rounded-xl bg-red-600 p-3 hover:bg-orange-700 ml-[2vw]"
+                            ? 'rounded-xl bg-orange-400 p-3 hover:bg-orange-600 ml-[2vw]'
+                            : 'rounded-xl bg-red-600 p-3 hover:bg-orange-700 ml-[2vw]'
                         }
                         id="audioActivate"
                         type="button"
@@ -202,7 +202,7 @@ export default function record() {
                     blob={mediaBlobUrl}
                     status={status}
                   />
-                  {status == "idle" ? (
+                  {status == 'idle' ? (
                     <button
                       className="rounded-xl bg-orange-400 p-3 hover:bg-orange-600"
                       onClick={startRecording}
@@ -210,7 +210,7 @@ export default function record() {
                       Start
                     </button>
                   ) : null}
-                  {status == "paused" ? (
+                  {status == 'paused' ? (
                     <button
                       className="rounded-xl bg-orange-400 p-3 hover:bg-orange-600"
                       onClick={resumeRecording}
@@ -218,7 +218,7 @@ export default function record() {
                       Resume
                     </button>
                   ) : null}
-                  {status == "recording" ? (
+                  {status == 'recording' ? (
                     <button
                       className="rounded-xl bg-orange-400 p-3 hover:bg-orange-600"
                       onClick={pauseRecording}
@@ -226,7 +226,7 @@ export default function record() {
                       Pause
                     </button>
                   ) : null}
-                  {status == "recording" || status == "paused" ? (
+                  {status == 'recording' || status == 'paused' ? (
                     <button
                       className="rounded-xl bg-red-600 p-3 hover:bg-red-700"
                       onClick={stopRecording}
@@ -246,7 +246,7 @@ export default function record() {
               )}
             />
           </div>
-          <div className="space-x-3 w-[500px] space-y-3">
+          <div className="space-x-3 space-y-3">
             <h2 className="text-3xl mb-3">Perguntas</h2>
             {questions.length && questions[currQuenstionIndex] ? (
               <div className="flex items-center justify-between space-x-5">
@@ -353,7 +353,7 @@ export default function record() {
                     {
                       content: content,
                       momentOnVideo: moment,
-                      type: "OPEN",
+                      type: 'OPEN',
                       options: Object.keys(options).map((option) => ({
                         answerLetter: option,
                         answerText: options[option],
