@@ -9,23 +9,43 @@ import Estudante from '../public/student.svg';
 import api from '../services/api';
 
 export default function Register() {
-  const [login, setLogin] = useState('');
-  const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
+
   const navigate = useRouter();
+
+  function storage(userId) {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('login', email);
+      localStorage.setItem('password', password);
+      localStorage.setItem('userId', userId);
+    }
+
+    navigate.push('/home');
+  }
 
   async function handleRegister(e) {
     e.preventDefault();
 
     try {
-      const response = await api.post('users', { login });
-
-      localStorage.setItem('login', login);
-      localStorage.setItem('name', response.data.name);
-
-      navigate.push('/home');
+      api
+        .post('/users/signup', {
+          username: email,
+          name: username,
+          email: email,
+          password: password,
+          type: 'STUDENT',
+        })
+        .then((response) => {
+          storage(response.data.id);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
     } catch (err) {
-      alert('Falha no login, tente novamente.');
+      alert('Falha no login, tente novamente. \n' + err.message);
     }
   }
 
@@ -72,8 +92,8 @@ export default function Register() {
             <input
               className="w-full pl-8 pb-2 text-black outline-none border-b-2 border-gray-600 placeholder-black"
               placeholder="Digite seu endereço de e-mail"
-              value={login}
-              onChange={(e) => setLogin(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </label>
           <span className="block mt-10 font-medium text-sm text-gray-400">
@@ -84,8 +104,8 @@ export default function Register() {
             <input
               className="w-full pl-8 pb-2 text-black outline-none border-b-2 border-gray-600 placeholder-black"
               placeholder="Digite seu nome de usuário"
-              value={user}
-              onChange={(e) => setUser(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </label>
           <span className="block mt-8 font-medium text-sm text-gray-400">
@@ -108,16 +128,20 @@ export default function Register() {
             <input
               className="w-full pl-8 pb-2 text-black outline-none border-b-2 border-gray-600 placeholder-black"
               placeholder="Confirme sua senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={password2}
+              onChange={(e) => setPassword2(e.target.value)}
             />
           </label>
-          <button
-            className="block w-full h-12 mt-12 rounded-3xl bg-orange-500 text-white"
-            type="submit"
-          >
-            Registrar
-          </button>
+          {password === password2 ? (
+            <button
+              className="block w-full h-12 mt-12 rounded-3xl bg-orange-500 text-white"
+              type="submit"
+            >
+              Registrar
+            </button>
+          ) : (
+            <h1 className="mt-4">Senhas não coincidem!</h1>
+          )}
         </form>
       </section>
     </div>

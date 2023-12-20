@@ -6,31 +6,41 @@ import { useState } from 'react';
 import { TbLock } from 'react-icons/tb';
 import { TfiEmail } from 'react-icons/tfi';
 import Estudante from '../public/student.svg';
+import api from '../services/api';
 
 export default function Login() {
-  const [signedIn, setSignedIn] = useState(false);
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+
   const navigate = useRouter();
+
+  function storage(userId) {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('login', login);
+      localStorage.setItem('password', password);
+      localStorage.setItem('userId', userId);
+    }
+
+    navigate.push('/home');
+  }
 
   async function handleLogin(e) {
     e.preventDefault();
 
     try {
-      const response = await api
+      api
         .post('/users/signin', {
-          username: login,
           password: password,
+          username: login,
         })
-        .then(setSignedIn(true))
-        .catch(setSignedIn(false));
-
-      localStorage.setItem('login', login);
-      localStorage.setItem('password', password);
-
-      if (signedIn) navigate.push('/home', reponse.id);
+        .then((response) => {
+          storage(response.data.id);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
     } catch (err) {
-      alert('Falha no login, tente novamente.');
+      alert('Falha no login, tente novamente.\n' + err);
     }
   }
 
