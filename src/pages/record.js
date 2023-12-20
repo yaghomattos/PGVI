@@ -19,6 +19,7 @@ export default function record() {
   const [recordType, setRecordType] = useState('screen');
   const [userId, setUserId] = useState('screen');
 
+  const [name, setName] = useState('screen');
   const [questions, setQuestions] = useState([]);
   const [content, setContent] = useState('');
   const [correct, setCorrect] = useState('A');
@@ -26,7 +27,7 @@ export default function record() {
   const [moment, setMoment] = useState('00:00:00');
   const [currQuenstionIndex, setCurrQuenstionIndex] = useState(0);
 
-  const [userVideos, setUserVideos] = useState([]);
+  const [userVideos, setUserVideos] = useState([1, 2, 3]);
 
   if (typeof window !== 'undefined') {
     api
@@ -44,6 +45,21 @@ export default function record() {
 
     setCurrQuenstionIndex(questions.length - 1);
   }, [questions]);
+
+  function uploadVideo() {
+    api
+      .post(`/video`, {
+        userId: userId,
+        content: '',
+        name: name,
+      })
+      .then((response) => {
+        setUserVideos(response.data);
+      })
+      .catch((err) => {
+        console.log('userVideos - ' + err.message);
+      });
+  }
 
   return (
     <div className="w-screen h-screen flex justify-end bg-gray-900 bg-opacity-95 font-mono">
@@ -106,7 +122,7 @@ export default function record() {
                 previewStream,
                 mediaBlobUrl,
               }) => (
-                <div>
+                <div className="w-[45vw] h-[46vh]">
                   <ul className="flex w-[45vw] justify-start mb-2 mt-1 ml-3">
                     <li className="flex items-center">
                       <input
@@ -156,92 +172,114 @@ export default function record() {
                         1080P
                       </label>
                     </li>
-                    <li className="flex items-center">
-                      <button
-                        className={
-                          !isAudioMuted
-                            ? 'rounded-xl bg-orange-400 p-3 hover:bg-orange-600 ml-[2vw]'
-                            : 'rounded-xl bg-red-600 p-3 hover:bg-orange-700 ml-[2vw]'
-                        }
-                        id="audioActivate"
-                        type="button"
-                        onClick={() => {
-                          !isAudioMuted ? muteAudio() : unMuteAudio();
-                        }}
-                      >
-                        {!isAudioMuted ? (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="currentColor"
-                            className="bi bi-mic-fill"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M5 3a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z" />
-                            <path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5" />
-                          </svg>
-                        ) : (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="currentColor"
-                            className="bi bi-mic-mute-fill"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M13 8c0 .564-.094 1.107-.266 1.613l-.814-.814A4.02 4.02 0 0 0 12 8V7a.5.5 0 0 1 1 0zm-5 4c.818 0 1.578-.245 2.212-.667l.718.719a4.973 4.973 0 0 1-2.43.923V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 1 0v1a4 4 0 0 0 4 4m3-9v4.879L5.158 2.037A3.001 3.001 0 0 1 11 3" />
-                            <path d="M9.486 10.607 5 6.12V8a3 3 0 0 0 4.486 2.607m-7.84-9.253 12 12 .708-.708-12-12-.708.708z" />
-                          </svg>
-                        )}
-                      </button>
-                    </li>
                   </ul>
-                  <VideoPreview
-                    stream={previewStream}
-                    blob={mediaBlobUrl}
-                    status={status}
-                  />
-                  {status == 'idle' ? (
-                    <button
-                      className="rounded-xl bg-orange-400 p-3 hover:bg-orange-600"
-                      onClick={startRecording}
-                    >
-                      Start
-                    </button>
-                  ) : null}
-                  {status == 'paused' ? (
-                    <button
-                      className="rounded-xl bg-orange-400 p-3 hover:bg-orange-600"
-                      onClick={resumeRecording}
-                    >
-                      Resume
-                    </button>
-                  ) : null}
-                  {status == 'recording' ? (
-                    <button
-                      className="rounded-xl bg-orange-400 p-3 hover:bg-orange-600"
-                      onClick={pauseRecording}
-                    >
-                      Pause
-                    </button>
-                  ) : null}
-                  {status == 'recording' || status == 'paused' ? (
-                    <button
-                      className="rounded-xl bg-red-600 p-3 hover:bg-red-700"
-                      onClick={stopRecording}
-                    >
-                      Stop
-                    </button>
-                  ) : null}
-                  {mediaBlobUrl ? (
-                    <button
-                      className="rounded-xl bg-red-600 p-3 hover:bg-red-700"
-                      onClick={clearBlobUrl}
-                    >
-                      Clear
-                    </button>
-                  ) : null}
+                  <div className="flex w-[45vw] h-[46vh] justify-center items-center">
+                    <VideoPreview
+                      stream={previewStream}
+                      blob={mediaBlobUrl}
+                      status={status}
+                    />
+                    <div className="flex flex-col items-center absolute">
+                      <input
+                        className="w-[30vw] mb-[32vh] py-1 px-3 rounded-md border border-[#e0e0e0] bg-white  text-base font-medium outline-none focus:border-orange-600 focus:shadow-md"
+                        type="text"
+                        name="name"
+                        id="name"
+                        placeholder="Nome da Aula"
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
+                      />
+                      <div className="flex">
+                        {status == 'idle' ? (
+                          <button
+                            className="mr-2 rounded-xl bg-orange-400 p-3 hover:bg-orange-600 text-white"
+                            onClick={startRecording}
+                          >
+                            Start
+                          </button>
+                        ) : null}
+                        {status == 'paused' ? (
+                          <button
+                            className="mr-2 rounded-xl bg-orange-400 p-3 hover:bg-orange-600 text-white"
+                            onClick={resumeRecording}
+                          >
+                            Resume
+                          </button>
+                        ) : null}
+                        {status == 'recording' ? (
+                          <button
+                            className="mr-2 rounded-xl bg-orange-400 p-3 hover:bg-orange-600 text-white"
+                            onClick={pauseRecording}
+                          >
+                            Pause
+                          </button>
+                        ) : null}
+                        {status == 'recording' || status == 'paused' ? (
+                          <button
+                            className="mr-2 rounded-xl bg-red-600 p-3 hover:bg-red-700 text-white"
+                            onClick={stopRecording}
+                          >
+                            Stop
+                          </button>
+                        ) : null}
+                        {mediaBlobUrl ? (
+                          <button
+                            className="rounded-xl bg-red-600 p-3 hover:bg-red-700 text-white"
+                            onClick={clearBlobUrl}
+                          >
+                            Clear
+                          </button>
+                        ) : null}
+                        <div className="flex items-center">
+                          <button
+                            className={
+                              !isAudioMuted
+                                ? 'rounded-xl bg-gray-800 px-5 py-3 hover:bg-orange-600 ml-2 text-white'
+                                : 'rounded-xl bg-gray-400 px-5 py-3 hover:bg-orange-600 ml-2 text-white'
+                            }
+                            id="audioActivate"
+                            type="button"
+                            onClick={() => {
+                              !isAudioMuted ? muteAudio() : unMuteAudio();
+                            }}
+                          >
+                            {!isAudioMuted ? (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                className="bi bi-mic-fill"
+                                viewBox="0 0 16 16"
+                              >
+                                <path d="M5 3a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z" />
+                                <path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5" />
+                              </svg>
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                className="bi bi-mic-mute-fill"
+                                viewBox="0 0 16 16"
+                              >
+                                <path d="M13 8c0 .564-.094 1.107-.266 1.613l-.814-.814A4.02 4.02 0 0 0 12 8V7a.5.5 0 0 1 1 0zm-5 4c.818 0 1.578-.245 2.212-.667l.718.719a4.973 4.973 0 0 1-2.43.923V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 1 0v1a4 4 0 0 0 4 4m3-9v4.879L5.158 2.037A3.001 3.001 0 0 1 11 3" />
+                                <path d="M9.486 10.607 5 6.12V8a3 3 0 0 0 4.486 2.607m-7.84-9.253 12 12 .708-.708-12-12-.708.708z" />
+                              </svg>
+                            )}
+                          </button>
+
+                          <button
+                            className="ml-10 rounded-xl bg-red-600 p-3 hover:bg-red-700 text-white"
+                            onClick={uploadVideo}
+                          >
+                            Enviar
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
             />
@@ -290,12 +328,6 @@ export default function record() {
                 )}
               </div>
             ) : null}
-            <label
-              htmlFor="conteudo"
-              className="mb-3 block text-base font-medium text-[#07074D]"
-            >
-              Conteúdo
-            </label>
             <input
               type="text"
               name="conteudo"
@@ -346,7 +378,7 @@ export default function record() {
                 ></input>
               </div>
               <button
-                className="rounded-xl bg-orange-400 p-3 hover:bg-orange-600"
+                className="rounded-xl bg-orange-400 p-3 hover:bg-orange-600 text-white"
                 onClick={() => {
                   setQuestions([
                     ...questions,

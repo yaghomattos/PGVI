@@ -6,8 +6,11 @@ export default function Sidebar(props) {
 
   const { pathname } = useRouter();
 
-  const inactive = 'text-lg text-gray-400';
-  const active = 'text-lg text-orange-500';
+  const inactive = 'text-lg text-gray-400 hover:text-orange-200';
+  const active = ' text-lg text-orange-600';
+
+  const bg_active =
+    'flex w-[20vw] h-[8vh] mb-4 -ml-6 pl-6 items-center rounded-l-full bg-white';
 
   return (
     <div className={style}>
@@ -19,7 +22,7 @@ export default function Sidebar(props) {
       </div>
 
       <nav className="block ml-4 mt-20">
-        <div className="mb-4">
+        <div className={pathname == '/home' ? bg_active : 'mb-4'}>
           <Link
             className={pathname == '/home' ? active : inactive}
             href={'/home'}
@@ -27,7 +30,7 @@ export default function Sidebar(props) {
             Painel
           </Link>
         </div>
-        <div className="mb-4">
+        <div className={pathname == '/record' ? bg_active : 'mb-4'}>
           <Link
             className={pathname == '/record' ? active : inactive}
             href={'/record'}

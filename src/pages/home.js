@@ -51,7 +51,7 @@ export default function Home() {
       <div className="w-4/5 mr-6 my-6 rounded-3xl bg-white">
         <Header />
 
-        <section className="ml-16 mt-4">
+        <section className="ml-16 mt-4 overflow-hidden">
           <h1 className="text-3xl text-medium">Meus Cursos</h1>
           <div
             className="flex flex-row overflow-x-scroll w-[54vw] mt-2"
@@ -65,7 +65,7 @@ export default function Home() {
                   key={index}
                   className={
                     video.content != null
-                      ? 'flex-shrink-0 w-[26vw] h-[40vh] mr-[2vw] rounded-2xl'
+                      ? 'flex-shrink-0 w-[25vw] h-[40vh] mr-[2vw] rounded-2xl'
                       : myvideos_style
                   }
                   onClick={() => navigate.push('/play', video.id)}
