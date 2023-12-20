@@ -1,23 +1,31 @@
 import api from '@/services/api';
 import Head from 'next/head';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../components/header';
 import Sidebar from '../components/sidebar';
 
-export default function Home(props) {
-  const userId = props.id;
+export default function Home() {
+  const [userId, setUserId] = useState();
 
-  const [userVideos, setUserVideos] = useState([1, 2, 3]);
-  const [allVideos, setAllVideos] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  const [userVideos, setUserVideos] = useState([1, 2, 3, 4]);
+  const [allVideos, setAllVideos] = useState([]);
 
   const navigate = useRouter();
+
+  const myvideos_style =
+    'flex-shrink-0 w-[26vw] h-[40vh] mr-[2vw] rounded-2xl bg-gray-400';
+  const otherVideos_style =
+    'flex-shrink-0 w-[8vw] h-[20vh] mr-6 rounded-xl bg-gray-400';
+
+  useEffect(() => {
+    setUserId(localStorage.getItem('userId'));
+  }, []);
 
   api
     .get(`/users/videos/userId/${userId}`)
     .then((response) => {
-      setUserVideos(response);
+      setUserVideos(response.data);
     })
     .catch((err) => {
       console.log('userId - ' + err.message);
@@ -51,11 +59,15 @@ export default function Home(props) {
               paddingBottom: '4px',
             }}
           >
-            {userVideos.map((video) => {
+            {userVideos.map((video, index) => {
               return (
                 <div
-                  key={video.valueOf()}
-                  className="w-[26vw] h-[40vh] flex-shrink-0 mr-[2vw] rounded-2xl bg-gray-400"
+                  key={index}
+                  className={
+                    video.content != null
+                      ? 'flex-shrink-0 w-[26vw] h-[40vh] mr-[2vw] rounded-2xl'
+                      : myvideos_style
+                  }
                   onClick={() => navigate.push('/play', video.id)}
                 >
                   <video
@@ -70,13 +82,21 @@ export default function Home(props) {
                   <div className="flex flex-col w-full h-full justify-around items-center z-10">
                     <div className="flex w-full justify-around items-center">
                       <div className="flex flex-col">
-                        <Image
+                        <video
+                          className="absolute z-0 rounded-2xl"
+                          autoPlay
+                          loop
+                          muted
+                        >
+                          <source src={video.content} type="video/mp4" />
+                        </video>
+                        {/* <Image
                           className="w-[3vw] h-[3vw] rounded-full"
                           alt="username"
                           src={video.content}
-                        />
+                        /> */}
                         <h2 className="font-light text-gray-200">
-                          {video.username}
+                          {video.userName}
                         </h2>
                       </div>
 
@@ -108,30 +128,38 @@ export default function Home(props) {
               paddingBottom: '4px',
             }}
           >
-            {allVideos ? (
-              allVideos.map((allVideo, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="flex-shrink-0 w-[8vw] h-[20vh] mr-6 rounded-xl bg-gray-400"
-                    onClick={() => navigate.push('/play', allVideo.id)}
+            {allVideos.map((allVideo, index) => {
+              return (
+                <div
+                  key={index}
+                  className={
+                    allVideo.content != null
+                      ? 'flex-shrink-0 w-[8vw] h-[20vh] mr-6 rounded-xl'
+                      : otherVideos_style
+                  }
+                  onClick={() => navigate.push('/play', allVideo.id)}
+                >
+                  <video
+                    className="absolute z-0 rounded-2xl"
+                    autoPlay
+                    loop
+                    muted
                   >
-                    <div className="flex flex-col h-full items-center justify-end">
-                      <Image
-                        className="mb-2 w-[3vw] h-[3vw] rounded-full"
-                        alt="other user"
-                        src={allVideo.content}
-                      />
-                      <h2 className="mb-4 font-light text-gray-200">
-                        {allVideo.username}
-                      </h2>
-                    </div>
+                    <source src={allVideo.content} type="video/mp4" />
+                  </video>
+                  <div className="flex flex-col h-full items-center justify-end">
+                    {/* <Image
+                      className="mb-2 w-[3vw] h-[3vw] rounded-full"
+                      alt="other user"
+                      src={allVideo.content}
+                    /> */}
+                    <h2 className="mb-4 font-light text-gray-200">
+                      {allVideo.userName}
+                    </h2>
                   </div>
-                );
-              })
-            ) : (
-              <div className="w-full h-20 bg-red-200"></div>
-            )}
+                </div>
+              );
+            })}
           </div>
         </section>
       </div>
