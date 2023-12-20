@@ -9,7 +9,7 @@ export default function Home() {
   const [userId, setUserId] = useState();
 
   const [userVideos, setUserVideos] = useState([1, 2, 3, 4]);
-  const [allVideos, setAllVideos] = useState([]);
+  const [allVideos, setAllVideos] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
   const navigate = useRouter();
 
