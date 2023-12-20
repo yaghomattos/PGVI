@@ -25,7 +25,7 @@ export default function Home() {
   api
     .get(`/users/videos/userId/${userId}`)
     .then((response) => {
-      setUserVideos(response.data);
+      // setUserVideos(response.data);
     })
     .catch((err) => {
       console.log('userId - ' + err.message);
@@ -102,7 +102,7 @@ export default function Home() {
 
                       <div className="w-fit h-fit py-2 px-3 rounded-lg bg-orange-600">
                         <h2 className="text-base text-white">
-                          {'video.time min'}
+                          {Math.floor(Math.random() * 10) + ' min'}
                         </h2>
                       </div>
                     </div>
