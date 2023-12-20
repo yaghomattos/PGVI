@@ -33,7 +33,11 @@ export default function Play(props) {
           <div>
             <h1 className="text-3xl mt-6">Curso Básico de Programção</h1>
             <video controls width={700} className="rounded-3xl mt-2">
-              <source src={'data:video/webm;base64,' + video.content}></source>
+              <source
+                src={
+                  'https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4'
+                }
+              ></source>
             </video>
             <div className="flex-auto mt-4">
               <div className="flex items-center pb-6 border-solid border-b-[1px] border-gray-200">
