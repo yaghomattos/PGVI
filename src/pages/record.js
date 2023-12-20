@@ -186,8 +186,8 @@ export default function record() {
                         name="name"
                         id="name"
                         placeholder="Nome da Aula"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                       />
                       <div className="flex">
                         {status == 'idle' ? (
