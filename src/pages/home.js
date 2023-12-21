@@ -6,39 +6,38 @@ import Header from '../components/header';
 import Sidebar from '../components/sidebar';
 
 export default function Home() {
-  const [userId, setUserId] = useState();
+  const [userVideos, setUserVideos] = useState([1, 2, 3]);
 
-  const [userVideos, setUserVideos] = useState([1, 2, 3, 4]);
-  const [allVideos, setAllVideos] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  const [allVideos, setAllVideos] = useState([1, 2, 3, 4, 5, 6, 7]);
 
   const navigate = useRouter();
 
   const myvideos_style =
-    'flex-shrink-0 w-[26vw] h-[40vh] mr-[2vw] rounded-2xl bg-gray-400';
+    'flex-shrink-0 w-[25vw] h-[40vh] mr-[2vw] rounded-2xl bg-gray-400';
   const otherVideos_style =
     'flex-shrink-0 w-[8vw] h-[20vh] mr-6 rounded-xl bg-gray-400';
 
   useEffect(() => {
-    setUserId(localStorage.getItem('userId'));
+    const userId = localStorage.getItem('userId');
+
+    api
+      .get(`/users/videos/userId/${userId}`)
+      .then((response) => {
+        // setUserVideos(response.data);
+      })
+      .catch((err) => {
+        console.log('userId - ' + err.message);
+      });
+
+    api
+      .get(`/video/all-videos`)
+      .then((response) => {
+        setAllVideos(response.data);
+      })
+      .catch((err) => {
+        console.log('allVideos - ' + err.message);
+      });
   }, []);
-
-  api
-    .get(`/users/videos/userId/${userId}`)
-    .then((response) => {
-      // setUserVideos(response.data);
-    })
-    .catch((err) => {
-      console.log('userId - ' + err.message);
-    });
-
-  api
-    .get(`/video/all-videos`)
-    .then((response) => {
-      setAllVideos(response.data);
-    })
-    .catch((err) => {
-      console.log('allVideos - ' + err.message);
-    });
 
   return (
     <div className="w-screen h-screen flex justify-end bg-gray-900 bg-opacity-95 font-mono">
@@ -53,25 +52,20 @@ export default function Home() {
 
         <section className="ml-16 mt-4 overflow-hidden">
           <h1 className="text-3xl text-medium">Meus Cursos</h1>
-          <div
-            className="flex flex-row overflow-x-scroll w-[54vw] mt-2"
-            style={{
-              paddingBottom: '4px',
-            }}
-          >
+          <div className="flex flex-row pb-2 overflow-x-scroll w-[54vw] mt-2">
             {userVideos.map((video, index) => {
               return (
                 <div
                   key={index}
                   className={
                     video.content != null
-                      ? 'flex-shrink-0 w-[25vw] h-[40vh] mr-[2vw] rounded-2xl'
+                      ? 'flex flex-shrink-0 w-[25vw] h-[40vh] mr-[2vw] rounded-2xl'
                       : myvideos_style
                   }
                   onClick={() => navigate.push('/play', video.id)}
                 >
                   <video
-                    className="absolute z-0 rounded-2xl"
+                    className="absolute z-0 rounded-2xl "
                     autoPlay
                     loop
                     muted
@@ -82,14 +76,6 @@ export default function Home() {
                   <div className="flex flex-col w-full h-full justify-around items-center z-10">
                     <div className="flex w-full justify-around items-center">
                       <div className="flex flex-col">
-                        <video
-                          className="absolute z-0 rounded-2xl"
-                          autoPlay
-                          loop
-                          muted
-                        >
-                          <source src={video.content} type="video/mp4" />
-                        </video>
                         {/* <Image
                           className="w-[3vw] h-[3vw] rounded-full"
                           alt="username"
@@ -101,9 +87,7 @@ export default function Home() {
                       </div>
 
                       <div className="w-fit h-fit py-2 px-3 rounded-lg bg-orange-600">
-                        <h2 className="text-base text-white">
-                          {Math.floor(Math.random() * 10) + ' min'}
-                        </h2>
+                        <h2 className="text-base text-white">{'5 min'}</h2>
                       </div>
                     </div>
 
